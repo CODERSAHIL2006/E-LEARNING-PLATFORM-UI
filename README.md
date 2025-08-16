@@ -295,7 +295,235 @@
   const gameBoard=document.getElementById('game-board');
   const statusText=document.getElementById('game-status');
   let firstCard=null,secondCard=null,lock=false,matches=0;
-  const symbols=["🍎","🍎","🚀","🚀","🎓","🎓","💻","💻","😴","😴","😡","😡","🫠","🫠","😎","😎"];
+  const symbols=["🍎","🍎","🚀","🚀","🎓","🎓","💻","💻"];
+
+  function startGame(){
+      gameBoard.innerHTML='';matches=0;statusText.textContent='';
+      const cards=[...symbols].sort(()=>Math.random()-0.5);
+      cards.forEach(sym=>{
+          const card=document.createElement('div');
+          card.classList.add('card');card.dataset.symbol=sym;
+          card.innerHTML='?';
+          card.onclick=()=>flipCard(card);
+          gameBoard.appendChild(card);
+      });
+  }
+  function flipCard(card){
+      if(lock||<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Learning Platform with Portfolio, Live Clock, Quiz & Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    body { 
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #1f1c2c, #928dab); 
+      color: #f4f4f4;
+      position: relative;
+      overflow-x: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <button onclick="showPage('home')">🏠 Home</button>
+    <button onclick="showPage('courses')">📖 Courses</button>
+    <button onclick="showPage('progress')">📊 Progress</button>
+    <button onclick="showPage('video')">🎬 Video</button>
+    <button onclick="showPage('quiz')">📝 Quiz</button>
+    <button onclick="showPage('game')">🎮 Game</button>
+  </nav>
+
+  <!-- Home Page -->
+  <section id="home" class="page active">
+    <h1>Hello, I'm </h1><h1 id="name">Sahil A. Kharat</h1>
+    <p>Aspiring Web Developer | Creative Thinker | Lifelong Learner</p>
+    <div id="clock"></div>
+    <br><br>
+    <h2>About Me</h2>
+    <p>I am currently pursuing a Bachelor’s degree in Information Technology (BSc IT)...</p>
+    <br>
+    <h2>My Projects</h2>
+    <ul>
+      <li><strong>Portfolio Website</strong> – Showcasing my skills and projects.</li>
+      <li><strong>Weather App</strong> – Real-time weather updates.</li>
+      <li><strong>To-Do List</strong> – A task manager using vanilla JS.</li>
+      <li><strong>Coming Soon...</strong> – React-based blog platform.</li>
+    </ul>
+  </section>
+
+  <!-- Courses Page -->
+  <section id="courses" class="page">
+    <h2>Available Courses</h2>
+    <div class="course-list">
+      <div class="course"><h3>HTML & CSS Basics</h3></div>
+      <div class="course"><h3>JavaScript Fundamentals</h3></div>
+      <div class="course"><h3>Python for Beginners</h3></div>
+      <div class="course"><h3>React.js Crash Course</h3></div>
+    </div>
+  </section>
+
+  <!-- Progress Page -->
+  <section id="progress" class="page">
+    <h2>Your Learning Progress</h2>
+    <p>HTML & CSS Basics</p>
+    <div class="progress-bar"><div class="progress" style="width: 70%;"></div></div>
+    <p>JavaScript Fundamentals</p>
+    <div class="progress-bar"><div class="progress" style="width: 40%;"></div></div>
+  </section>
+
+  <!-- Video Page -->
+  <section id="video" class="page">
+    <h2>Course Video: HTML & CSS Basics</h2>
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/mU6anWqZJcc" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- Quiz Page -->
+  <section id="quiz" class="page">
+    <div class="quiz-container">
+      <div id="start-screen">
+          <h1>IT Quiz Application</h1>
+          <p>Select number of questions:</p>
+          <select id="num-questions">
+              <option value="5">5 Questions</option>
+              <option value="10">10 Questions</option>
+              <option value="15">15 Questions</option>
+          </select>
+          <button onclick="startQuiz()">Start Quiz</button>
+      </div>
+      <div id="quiz-screen" class="hidden">
+          <h2>Question <span id="question-number"></span></h2>
+          <p id="timer">Time: <span id="time-left"></span>s</p>
+          <p id="question-text"></p>
+          <div id="options"></div>
+          <p id="feedback" class="hidden"></p>
+          <button id="back-btn" onclick="goBack()" class="hidden">Back</button>
+          <button onclick="nextQuestion()">Next</button>
+      </div>
+      <div id="result-screen" class="hidden">
+          <h2>Quiz Completed!</h2>
+          <p id="result-text"></p>
+          <button onclick="restartQuiz()">Restart Quiz</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Game Page -->
+  <section id="game" class="page">
+    <h2>Memory Match Game 🎮</h2>
+    <p>Match all pairs to test your focus!</p>
+    <div class="game-container" id="game-board"></div>
+    <p id="game-status"></p>
+    <button onclick="startGame()">Restart Game</button>
+  </section>
+
+<script>
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+  }
+
+  // Live Clock
+  function updateClock() {
+    const now = new Date();
+    let h = now.getHours().toString().padStart(2,'0');
+    let m = now.getMinutes().toString().padStart(2,'0');
+    let s = now.getSeconds().toString().padStart(2,'0');
+    document.getElementById('clock').innerText = `${h}:${m}:${s}`;
+  }
+  setInterval(updateClock, 1000); updateClock();
+
+  /* Quiz Script */
+  const questions = [
+      {question:"What does CPU stand for?",options:["Central Processing Unit","Computer Personal Unit","Core Processing Unit","Central Program Unit"],answer:"Central Processing Unit",feedback:"The CPU is the primary processing component."},
+      {question:"Which programming language is known as the 'language of the web'?",options:["Python","Java","JavaScript","C++"],answer:"JavaScript",feedback:"JavaScript adds interactivity to websites."},
+      {question:"What is the main function of RAM?",options:["Permanent storage","Temporary storage","Processing data","Cooling the system"],answer:"Temporary storage",feedback:"RAM temporarily stores data for quick access."},
+      {question:"What does HTML stand for?",options:["HyperText Markup Language","HighText Machine Language","HyperTool Multi Language","HomeText Markup Language"],answer:"HyperText Markup Language",feedback:"HTML structures web content."},
+      {question:"Which protocol is used to transfer web pages?",options:["FTP","HTTP","SMTP","TCP"],answer:"HTTP",feedback:"HTTP transfers web pages to browsers."},
+  ];
+  let currentQuestionIndex=0,score=0,selectedQuestions=[],numQuestions=5,timer=null,timeLeft=30,history=[];
+
+  function startQuiz(){
+      numQuestions=parseInt(document.getElementById('num-questions').value);
+      selectedQuestions=questions.sort(()=>Math.random()-0.5).slice(0,numQuestions);
+      currentQuestionIndex=0;score=0;history=[];
+      document.getElementById('start-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+      document.getElementById('back-btn').classList.add('hidden');
+      loadQuestion();
+  }
+  function startTimer(){
+      if(timer!==null) clearInterval(timer);
+      timeLeft=30;document.getElementById('time-left').textContent=timeLeft;
+      timer=setInterval(()=>{
+          timeLeft--;document.getElementById('time-left').textContent=timeLeft;
+          if(timeLeft<=0){clearInterval(timer);timer=null;nextQuestion();}
+      },1000);
+  }
+  function loadQuestion(){
+      const q=selectedQuestions[currentQuestionIndex];
+      document.getElementById('question-number').textContent=`${currentQuestionIndex+1} of ${numQuestions}`;
+      document.getElementById('question-text').textContent=q.question;
+      const opt=document.getElementById('options');opt.innerHTML='';
+      q.options.forEach(o=>{
+          const e=document.createElement('div');e.classList.add('option');e.textContent=o;
+          e.onclick=()=>selectOption(o,q);opt.appendChild(e);
+      });
+      document.getElementById('feedback').classList.add('hidden');
+      document.getElementById('back-btn').classList.toggle('hidden',currentQuestionIndex===0);
+      startTimer();
+  }
+  function selectOption(sel,q){
+      if(timer!==null){clearInterval(timer);timer=null;}
+      const isCorrect=sel===q.answer;
+      if(isCorrect)score++;else{
+          document.getElementById('feedback').textContent=q.feedback;
+          document.getElementById('feedback').classList.remove('hidden');
+      }
+      document.querySelectorAll('.option').forEach(o=>{
+          if(o.textContent===q.answer)o.classList.add('correct');
+          else if(o.textContent===sel && !isCorrect)o.classList.add('wrong');
+          o.onclick=null;
+      });
+      history.push({question:q,selected:sel,isCorrect});
+  }
+  function nextQuestion(){
+      if(timer!==null){clearInterval(timer);timer=null;}
+      currentQuestionIndex++;
+      if(currentQuestionIndex<numQuestions)loadQuestion();else showResults();
+  }
+  function goBack(){
+      if(currentQuestionIndex>0){
+          if(timer!==null){clearInterval(timer);timer=null;}
+          currentQuestionIndex--;
+          if(history[currentQuestionIndex]){score-=history[currentQuestionIndex].isCorrect?1:0;history.pop();}
+          loadQuestion();
+      }
+  }
+  function showResults(){
+      if(timer!==null){clearInterval(timer);timer=null;}
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
+      document.getElementById('result-text').textContent=`You scored ${score} out of ${numQuestions}!`;
+  }
+  function restartQuiz(){
+      if(timer!==null){clearInterval(timer);timer=null;}
+      document.getElementById('result-screen').classList.add('hidden');
+      document.getElementById('start-screen').classList.remove('hidden');
+  }
+
+  /* Game Script: Memory Match */
+  const gameBoard=document.getElementById('game-board');
+  const statusText=document.getElementById('game-status');
+  let firstCard=null,secondCard=null,lock=false,matches=0;
+  const symbols=["🍎","🍎","🚀","🚀","🎓","🎓","💻","💻"];
 
   function startGame(){
       gameBoard.innerHTML='';matches=0;statusText.textContent='';
@@ -310,6 +538,26 @@
   }
   function flipCard(card){
       if(lock||card.classList.contains('flipped'))return;
+      card.classList.add('flipped');card.innerHTML=card.dataset.symbol;
+      if(!firstCard){firstCard=card;return;}
+      secondCard=card;lock=true;
+      setTimeout(checkMatch,800);
+  }
+  function checkMatch(){
+      if(firstCard.dataset.symbol===secondCard.dataset.symbol){
+          matches++;
+          if(matches===symbols.length/2)statusText.textContent="🎉 You matched all pairs!";
+      }else{
+          firstCard.classList.remove('flipped');firstCard.innerHTML='?';
+          secondCard.classList.remove('flipped');secondCard.innerHTML='?';
+      }
+      firstCard=null;secondCard=null;lock=false;
+  }
+  startGame();
+</script>
+
+</body>
+</html>card.classList.contains('flipped'))return;
       card.classList.add('flipped');card.innerHTML=card.dataset.symbol;
       if(!firstCard){firstCard=card;return;}
       secondCard=card;lock=true;
